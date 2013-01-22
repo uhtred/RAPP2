@@ -23,7 +23,7 @@ require 'models/Article.php';
 /**
  *   Database Config
  */
-ORM::configure('mysql:host=localhost;dbname=DB_NAME');
+ORM::configure('mysql:host=localhost;dbname=' . DB_NAME);
 ORM::configure('username', DB_USER);
 ORM::configure('password', DB_PASS);
 
