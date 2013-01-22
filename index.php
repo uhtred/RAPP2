@@ -1,28 +1,31 @@
 <?php
-
-define('BASE_URL', '/Projetos/RAPP2');
-
 /**
- * Step 1: Require the Slim Framework
- *
- * If you are not using Composer, you need to require the
- * Slim Framework and register its PSR-0 autoloader.
- *
- * If you are using Composer, you can skip this step.
+ *   Master Config
  */
+define('BASE_URL', '/{base url}');
+define('DB_NAME', '{db name}');
+define('DB_USER', '{db user}');
+define('DB_PASS', '{db pass}');
+
+
 require 'Slim/Slim.php';
 
 // Paris and Idiorm
 require 'Paris/idiorm.php';
 require 'Paris/paris.php';
 
-// Models
+/**
+ *   Models
+ */
 require 'models/Article.php';
 
-// Configuration
-ORM::configure('mysql:host=localhost;dbname=blog');
-ORM::configure('username', 'root');
-ORM::configure('password', '120608');
+
+/**
+ *   Database Config
+ */
+ORM::configure('mysql:host=localhost;dbname=DB_NAME');
+ORM::configure('username', DB_USER);
+ORM::configure('password', DB_PASS);
 
 
 \Slim\Slim::registerAutoloader();
@@ -41,17 +44,16 @@ $app = new Slim(array(
 ));
 
 /**
- * Step 3: Define the Slim application routes
- *
- * Here we define several Slim application routes that respond
- * to appropriate HTTP request methods. In this example, the second
- * argument for `Slim::get`, `Slim::post`, `Slim::put`, and `Slim::delete`
- * is an anonymous function.
+ *   Hooks
  */
 
 $app->hook('slim.before', function () use ($app) {
     $app->view()->appendData(array('baseUrl' => BASE_URL));
 });
+
+/**
+ *   Routes
+ */
 
 // GET route
 $app->get('/', function () use($app) {
@@ -80,9 +82,6 @@ $app->delete('/delete', function () {
 });
 
 /**
- * Step 4: Run the Slim application
- *
- * This method should be called last. This executes the Slim application
- * and returns the HTTP response to the HTTP client.
+ * Run Application
  */
 $app->run();
